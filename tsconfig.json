@@ -23,5 +23,11 @@
     "strictFunctionTypes": true,
     "strictPropertyInitialization": false,
     "noImplicitThis": true,
+    "paths": {
+      "@/decorator/*": ["./src/shared/decorator/*"],
+      "@/filter/*": ["./src/shared/filter/*"],
+      "@/middleware/*": ["./src/shared/middleware/*"],
+      "@/swagger/*": ["./src/shared/swagger/*"],
+    }
   },
 }
