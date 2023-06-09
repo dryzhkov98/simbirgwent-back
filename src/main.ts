@@ -1,19 +1,20 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { AppConfigModule } from './config/app-config/app-config.module';
+import * as process from 'process';
 
-async function bootstrap() {
-  const config = AppConfigModule.init(process.env);
-  console.log(config.DATABASE);
-  console.log(config.DB_NAME);
-  console.log(config.DB_PASSWORD);
-  console.log(config.DB_USER);
-  console.log(config.NAME);
-  console.log(config.PORT);
-  console.log(config.URL);
-  console.log(config.VERSION);
-
+async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
   await app.listen(3000);
 }
-bootstrap();
+bootstrap()
+  .then((): void => {
+    // TODO: сделать порт через динамческие строки
+    console.log(`App started on port 3000`);
+  })
+  .catch((error: unknown): void => {
+    if (error instanceof Error) throw new Error(error.message);
+
+    console.error(error);
+
+    process.exit(1);
+  });
