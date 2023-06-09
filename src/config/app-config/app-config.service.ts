@@ -1,18 +1,19 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
-import { AppConfig } from '../app.config';
 import { validateSync } from 'class-validator';
 import { APP_CONFIG } from '../app.config.constants';
+import { ApplicationConfig } from '@nestjs/core';
+import { formatErrorMessage } from '@/utils/index';
 
 @Injectable()
-export class AppConfigService {
-  public appConfig: AppConfig;
-  constructor(@Inject(APP_CONFIG) config: Record<string, unknown>) {
-    this.appConfig = this.validate(config);
+export class AppConfigService<T extends ApplicationConfig> {
+  private appConfig: T;
+  constructor(@Inject(APP_CONFIG) appConfig: new () => T) {
+    this.appConfig = this.validate(appConfig);
   }
 
-  private validate(config: Record<string, unknown>) {
-    const validatedConfig = plainToClass(AppConfig, config, {
+  private validate(appConfig: new () => T) {
+    const validatedConfig = plainToClass(appConfig, process.env, {
       enableImplicitConversion: true,
     });
 
@@ -21,8 +22,18 @@ export class AppConfigService {
     });
 
     if (errors.length > 0) {
-      throw new Error(errors.toString());
+      const message = formatErrorMessage(errors);
+      throw new Error(message);
     }
     return validatedConfig;
+  }
+
+  get<V>(key: keyof T): V {
+    const value = this.appConfig[key] as V;
+
+    if (value == null)
+      throw new Error('There is no such value with specified type and key.');
+
+    return value;
   }
 }
