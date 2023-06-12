@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { plainToClass } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import { validateSync } from 'class-validator';
 import { APP_CONFIG } from '../app.config.constants';
 import { ApplicationConfig } from '@nestjs/core';
@@ -13,7 +13,7 @@ export class AppConfigService<T extends ApplicationConfig> {
   }
 
   private validate(appConfig: new () => T) {
-    const validatedConfig = plainToClass(appConfig, process.env, {
+    const validatedConfig = plainToInstance(appConfig, process.env, {
       enableImplicitConversion: true,
     });
 
