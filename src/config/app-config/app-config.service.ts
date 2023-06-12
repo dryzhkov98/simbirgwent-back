@@ -7,7 +7,7 @@ import { formatErrorMessage } from '@/utils/index';
 
 @Injectable()
 export class AppConfigService<T extends ApplicationConfig> {
-  private appConfig: T;
+  private readonly appConfig: T;
   constructor(@Inject(APP_CONFIG) appConfig: new () => T) {
     this.appConfig = this.validate(appConfig);
   }
