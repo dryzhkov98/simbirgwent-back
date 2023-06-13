@@ -28,6 +28,7 @@
       "@/filter/*": ["./src/shared/filter/*"],
       "@/middleware/*": ["./src/shared/middleware/*"],
       "@/swagger/*": ["./src/shared/swagger/*"],
+      "@/utils/*": ["./src/shared/utils/*"],
     }
   },
 }
