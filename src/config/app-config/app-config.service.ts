@@ -12,7 +12,7 @@ export class AppConfigService<T extends ApplicationConfig> {
     this.appConfig = this.validate(appConfig);
   }
 
-  private validate(appConfig: new () => T) {
+  private validate(appConfig: new () => T): T {
     const validatedConfig = plainToInstance(appConfig, process.env, {
       enableImplicitConversion: true,
     });
