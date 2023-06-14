@@ -7,7 +7,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { getHttpMessage } from './http-exception.filter.utils';
+import { getHttpMessage } from './utils';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -19,8 +19,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
       exception instanceof HttpException
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
-
-    //валидация ошибок + если ошибка не определена internal error
 
     const errorResponse = {
       statusCode: status,
