@@ -24,7 +24,9 @@ export class AppConfigModule {
     };
   }
 
-  static init<T extends ApplicationConfig>(config: new () => T) {
+  static init<T extends ApplicationConfig>(
+    config: new () => T,
+  ): AppConfigService<T> {
     return new AppConfigService(config);
   }
 }

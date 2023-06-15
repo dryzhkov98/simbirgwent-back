@@ -17,6 +17,9 @@ export class AppConfig extends ApplicationConfig implements IConfigApp {
   @IsString()
   public VERSION: string;
 
+  @IsString()
+  public DESCRIPTION: string;
+
   /* DATABASE settings */
 
   @IsString()
