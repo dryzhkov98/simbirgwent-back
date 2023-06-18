@@ -16,6 +16,8 @@ export function getHttpMessage(status: number): string {
       return UNAUTHORIZED;
     case 403:
       return FORBIDDEN;
+    case 405:
+      return FORBIDDEN;
     default:
       return INTERNAL_SERVER_ERROR;
   }
