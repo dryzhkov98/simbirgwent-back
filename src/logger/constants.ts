@@ -1,9 +1,9 @@
 import { format, transports } from 'winston';
-import {} from 'winston-daily-rotate-file';
-import { LoggerModule } from './logger.module';   //??????????????????????????
-require('winston-daily-rotate-file');         //??????????????????????????
+import 'winston-daily-rotate-file';
+import { LoggerModule } from './logger.module';
 
-export const loggerService= LoggerModule.createLogger({
+
+export const loggerService = LoggerModule.createLogger({
   transports: [
     new transports.DailyRotateFile({
       filename: `logs/%DATE%-error.log`,
@@ -22,11 +22,11 @@ export const loggerService= LoggerModule.createLogger({
     }),
     new transports.Console({
       format: format.combine(
-        format.cli(),
+        format.cli({all: true, colors: {info:'green', error: 'red'}}),
         format.splat(),
         format.timestamp(),
         format.printf((info) => {
-          return `${info.timestamp} ${info.level}: ${info.message}`;
+          return `${info.timestamp} ${info.level} [${LoggerModule.name}] : ${info.message}`;
         }),
       ),
     }),
