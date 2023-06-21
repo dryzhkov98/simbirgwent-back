@@ -4,13 +4,13 @@ import { WinstonLogger } from 'nest-winston';
 @Injectable({ scope: Scope.TRANSIENT })
 export class MyLoggerService extends WinstonLogger {
 
-  log(message: any, ...optionalParams: any[]) {super.log(message, ...optionalParams); }
+  log(message: unknown) {super.log(message); }
 
-  error(message: any, ...optionalParams: any[]) {super.error(message, ...optionalParams);}
+  error(message: unknown) {super.error(message);}
 
-  warn(message: any, ...optionalParams: any[]) {super.warn(message, ...optionalParams);}
+  warn(message: unknown) {super.warn(message);}
 
-  debug(message: any, ...optionalParams: any[]) {}
+  debug(message: unknown) {}
 
-  verbose(message: any, ...optionalParams: any[]) {}
+  verbose(message: unknown) {}
 }
