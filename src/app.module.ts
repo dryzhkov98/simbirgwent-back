@@ -3,7 +3,7 @@ import { AppConfigModule } from './config/app-config/app-config.module';
 import { AppConfig } from './config/app.config';
 
 @Module({
-  imports: [AppConfigModule.forRoot(AppConfig), UsersModule],
+  imports: [AppConfigModule.forRoot(AppConfig)],
   controllers: [],
   providers: [],
 })
