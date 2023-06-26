@@ -4,6 +4,6 @@ import { WinstonModule } from 'nest-winston';
 
 @Module({
   providers: [MyLoggerService],
-  exports: [MyLoggerService]
+  exports: [MyLoggerService],
 })
-export class LoggerModule extends  WinstonModule{}
+export class LoggerModule extends WinstonModule {}

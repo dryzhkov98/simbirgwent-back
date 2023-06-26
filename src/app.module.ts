@@ -6,8 +6,6 @@ import { HttpExceptionFilter } from '@/filter/http-exception.filter';
 import { LoggerModule } from './config/logger/logger.module';
 import { LoggerMiddleware } from '@/middleware/logger.middleware';
 
-
-
 @Module({
   imports: [AppConfigModule.forRoot(AppConfig), LoggerModule],
   controllers: [],
@@ -19,7 +17,7 @@ import { LoggerMiddleware } from '@/middleware/logger.middleware';
   ],
 })
 export class AppModule {
-  configure(consumer: MiddlewareConsumer) {
+  configure(consumer: MiddlewareConsumer): void {
     consumer.apply(LoggerMiddleware).forRoutes('*');
   }
 }

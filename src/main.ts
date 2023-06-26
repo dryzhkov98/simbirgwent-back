@@ -9,7 +9,9 @@ import { getConfigLogger } from './config/logger/logger.config';
 const config = AppConfigModule.init(AppConfig);
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule, {logger: LoggerModule.createLogger(getConfigLogger ())});
+  const app = await NestFactory.create(AppModule, {
+    logger: LoggerModule.createLogger(getConfigLogger()),
+  });
   await app.listen(config.get<number>('PORT'));
 }
 bootstrap()
