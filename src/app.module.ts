@@ -5,9 +5,10 @@ import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from '@/filter/http-exception.filter';
 import { LoggerModule } from './config/logger/logger.module';
 import { LoggerMiddleware } from '@/middleware/logger.middleware';
+import { TestApiModule } from './modules/test-api/test-api.module';
 
 @Module({
-  imports: [AppConfigModule.forRoot(AppConfig), LoggerModule],
+  imports: [AppConfigModule.forRoot(AppConfig), LoggerModule, TestApiModule],
   controllers: [],
   providers: [
     {
