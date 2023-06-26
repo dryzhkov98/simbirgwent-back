@@ -17,6 +17,11 @@ lerna-debug.log*
 .env.develop
 .env.test
 
+# Infra
+
+infra/**/volume
+infra/**/.env
+
 # OS
 .DS_Store
 
