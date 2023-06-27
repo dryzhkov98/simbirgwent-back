@@ -13,8 +13,8 @@ services:
     env_file:
       - ./database/.env
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U your_username" ]
-      interval: 30s
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 3s
       timeout: 10s
       retries: 3
     deploy:
