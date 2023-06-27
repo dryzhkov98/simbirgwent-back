@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  simbirgwent-postgres:
+    container_name: simbirgwent-postgres
+    image: postgres:15.3
+    restart: always
+    ports:
+      - "5432:5432"
+    networks:
+      - simbirgwent_network
+    volumes:
+      - ./database/volume:/var/lib/postgresql/data
+    env_file:
+      - ./database/.env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 3s
+      timeout: 10s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: '500M'
+
+
+
+
+volumes:
+  postgres_volume:
+
+networks:
+  simbirgwent_network:
