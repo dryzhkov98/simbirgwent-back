@@ -7,6 +7,7 @@ import { setupSwagger } from '@/swagger/swagger-setup';
 import { VersioningType } from '@nestjs/common';
 import { LoggerModule } from './config/logger/logger.module';
 import { getConfigLogger } from './config/logger/logger.config';
+import { DatabaseService } from './modules/database/database.service';
 
 const config = AppConfigModule.init(AppConfig);
 
@@ -14,6 +15,10 @@ async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule, {
     logger: LoggerModule.createLogger(getConfigLogger()),
   });
+
+  // enable shutdown hook
+  const databaseService: DatabaseService = app.get(DatabaseService);
+  await databaseService.enableShutdownHooks(app);
 
   app.enableVersioning({
     type: VersioningType.URI,
