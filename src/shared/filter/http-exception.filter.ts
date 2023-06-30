@@ -3,7 +3,8 @@ import {
   Catch,
   ArgumentsHost,
   HttpException,
-  HttpStatus, Logger,
+  HttpStatus,
+  Logger,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { getHttpMessage } from './utils';
@@ -11,7 +12,7 @@ import { MyLoggerService } from '../../config/logger/logger.service';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
-  private readonly logger:Logger = new Logger(MyLoggerService.name);
+  private readonly logger: Logger = new Logger(MyLoggerService.name);
   catch(exception: HttpException, host: ArgumentsHost): void {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
