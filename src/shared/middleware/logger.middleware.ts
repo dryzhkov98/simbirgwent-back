@@ -1,10 +1,10 @@
-import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
+import { Inject, Injectable, Logger, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import { MyLoggerService } from '../../config/logger/logger.service';
+import { LoggerService } from '../../config/logger/logger.service';
 
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
-  private readonly logger = new Logger(MyLoggerService.name);
+  constructor(@Inject(Logger) private readonly logger: LoggerService) {}
 
   use(req: Request, res: Response, next: NextFunction): void {
     const regex = /^([45])/;
