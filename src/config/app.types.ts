@@ -10,4 +10,11 @@ export interface IConfigApp {
   DB_NAME: string;
   DB_PASSWORD: string;
   DB_USER: string;
+  DB_DRIVER: string;
+  DB_HOST: string;
+  DB_PORT: number;
+  DB_SCHEMA: string;
+
+  /* Prisma DB URL */
+  DATABASE_URL: string;
 }

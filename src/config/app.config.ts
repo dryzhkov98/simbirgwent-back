@@ -1,6 +1,6 @@
-import { ApplicationConfig } from '@nestjs/core';
-import { IConfigApp } from './app.types';
-import { IsNumber, IsString } from 'class-validator';
+import { ApplicationConfig } from "@nestjs/core";
+import { IConfigApp } from "./app.types";
+import { IsNumber, IsString } from "class-validator";
 
 export class AppConfig extends ApplicationConfig implements IConfigApp {
   /* App settings */
@@ -39,4 +39,20 @@ export class AppConfig extends ApplicationConfig implements IConfigApp {
 
   @IsString()
   public DB_USER: string;
+
+  @IsString()
+  DB_DRIVER: string;
+
+  @IsString()
+  DB_HOST: string;
+
+  @IsNumber()
+  DB_PORT: number;
+
+  @IsString()
+  DB_SCHEMA: string;
+
+  /* Prisma DB URL */
+
+  DATABASE_URL: string;
 }
