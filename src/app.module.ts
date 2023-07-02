@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { Logger, MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppConfigModule } from './config/app-config/app-config.module';
 import { AppConfig } from './config/app.config';
 import { APP_FILTER } from '@nestjs/core';
@@ -15,6 +15,7 @@ import { DatabaseModule } from './modules/database/database.module';
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
     },
+    Logger,
   ],
 })
 export class AppModule {
