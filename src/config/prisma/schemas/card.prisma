@@ -1,0 +1,12 @@
+model Card {
+  id          String    @id @default(uuid()) @db.Uuid
+  name        String    @db.VarChar(255)
+  description String    @db.Text
+  image       Bytes     @db.ByteA
+  power       Int       @db.Integer
+  abilities   Json      @db.JsonB
+  rarity      Rarities
+  fraction    Fractions
+  Deck        Deck?     @relation(fields: [deckId], references: [id])
+  deckId      String?   @db.Uuid
+}
