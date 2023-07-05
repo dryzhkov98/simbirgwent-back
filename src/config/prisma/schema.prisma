@@ -14,8 +14,8 @@ model Card {
   image       Bytes     @db.ByteA
   power       Int       @db.Integer
   abilities   Json      @db.JsonB
-  rarity      Rarities
-  fraction    Fractions
+  rarity      Rarities // default?
+  fraction    Fractions // default?
   Deck        Deck?     @relation(fields: [deckId], references: [id])
   deckId      String?   @db.Uuid
 }
@@ -24,7 +24,7 @@ model Deck {
   id          String    @id @default(uuid()) @db.Uuid
   name        String    @db.VarChar(255)
   description String    @db.Text
-  fraction    Fractions
+  fraction    Fractions // default?
   cards       Card[]
 }
 
@@ -36,7 +36,7 @@ enum Rarities {
 }
 
 enum Fractions {
-  NOTHERN_KINGDOMS
+  NORTHERN_KINGDOMS
   SKELLIGE
   SKEWERS
   MONSTERS

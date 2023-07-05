@@ -4,7 +4,8 @@ import {
   ArgumentsHost,
   HttpException,
   HttpStatus,
-  Logger, Inject,
+  Logger,
+  Inject,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { getHttpMessage } from './utils';

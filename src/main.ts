@@ -4,7 +4,7 @@ import * as process from 'process';
 import { AppConfigModule } from './config/app-config/app-config.module';
 import { AppConfig } from './config/app.config';
 import { setupSwagger } from '@/swagger/swagger-setup';
-import { VersioningType } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { LoggerModule } from './config/logger/logger.module';
 import { getConfigLogger } from './config/logger/logger.config';
 import { DatabaseService } from './modules/database/database.service';
@@ -20,10 +20,20 @@ async function bootstrap(): Promise<void> {
   const databaseService: DatabaseService = app.get(DatabaseService);
   await databaseService.enableShutdownHooks(app);
 
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
+    }),
+  );
+
   app.enableVersioning({
     type: VersioningType.URI,
   });
-
   setupSwagger(app);
 
   await app.listen(config.get<number>('PORT'));

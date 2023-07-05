@@ -10,3 +10,18 @@ model Card {
   Deck        Deck?     @relation(fields: [deckId], references: [id])
   deckId      String?   @db.Uuid
 }
+
+enum Rarities {
+  COMMON
+  RARE
+  EPIC
+  LEGENDARY
+}
+
+enum Fractions {
+  NORTHERN_KINGDOMS
+  SKELLIGE
+  SKEWERS
+  MONSTERS
+  NILFGAARD
+}
