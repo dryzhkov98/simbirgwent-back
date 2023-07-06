@@ -1,10 +1,18 @@
 version: '3.9'
+
 services:
   simbirgwent-backend:
+    container_name: simbirgwent-backend
     env_file:
       - .env
-    build:
-      context: ./
-      dockerfile: Dockerfile
+    environment:
+      - NODE_VERSION=${NODE_VERSION}
+      - PORT=${PORT}
     ports:
       - ${PORT}:${PORT}
+    build:
+      context: .
+      args:
+        - NODE_VERSION=${NODE_VERSION}
+        - PORT=${PORT}
+    restart: always
