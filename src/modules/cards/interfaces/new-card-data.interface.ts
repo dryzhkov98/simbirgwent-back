@@ -1,7 +1,7 @@
-import { Fractions, Rarities } from '@prisma/client';
+import { Fraction, Rarity } from '@prisma/client';
 
 export interface INewCardData {
   image?: Buffer;
-  rarity?: Rarities;
-  fraction?: Fractions;
+  rarity?: Rarity;
+  fraction?: Fraction;
 }

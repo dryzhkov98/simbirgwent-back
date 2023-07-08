@@ -1,5 +1,7 @@
-import { IsJSON, IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsString, ValidateNested } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+import { Ability } from './ability.dto';
 
 export class CreateCardDto {
   @ApiProperty()
@@ -19,8 +21,9 @@ export class CreateCardDto {
   power: number;
 
   @ApiProperty()
-  @IsJSON()
-  abilities: object;
+  @ValidateNested({ each: true })
+  @Type(() => Ability)
+  abilities: Ability[];
 
   @ApiProperty()
   @IsString()

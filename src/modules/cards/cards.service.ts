@@ -34,6 +34,7 @@ export class CardsService {
     return this.databaseService.card.create({
       data: {
         ...createCardDto,
+        abilities: createCardDto.abilities.map((ability) => ({ ...ability })),
         image,
         rarity,
         fraction,
@@ -71,7 +72,7 @@ export class CardsService {
       where: { id },
       data: {
         name: updateCardDto.name,
-        abilities: updateCardDto.abilities,
+        abilities: updateCardDto?.abilities?.map((ability) => ({ ...ability })),
         description: updateCardDto.description,
         power: updateCardDto.power,
         ...newCardData,

@@ -1,41 +1,41 @@
-import { Fractions, Rarities } from '@prisma/client';
+import { Fraction, Rarity } from '@prisma/client';
 
 export const convertToFraction = (
   value: string | undefined,
-): Fractions | null => {
+): Fraction | null => {
   switch (value) {
-    case Fractions.MONSTERS:
-      return Fractions.MONSTERS;
-    case Fractions.NILFGAARD:
-      return Fractions.NILFGAARD;
-    case Fractions.SKELLIGE:
-      return Fractions.SKELLIGE;
-    case Fractions.SKEWERS:
-      return Fractions.SKEWERS;
-    case Fractions.NORTHERN_KINGDOMS:
-      return Fractions.NORTHERN_KINGDOMS;
+    case Fraction.MONSTERS:
+      return Fraction.MONSTERS;
+    case Fraction.NILFGAARD:
+      return Fraction.NILFGAARD;
+    case Fraction.SKELLIGE:
+      return Fraction.SKELLIGE;
+    case Fraction.SKEWERS:
+      return Fraction.SKEWERS;
+    case Fraction.NORTHERN_KINGDOMS:
+      return Fraction.NORTHERN_KINGDOMS;
     default:
       return null;
   }
 };
 
-export const convertToRarity = (value: string | undefined): Rarities | null => {
+export const convertToRarity = (value: string | undefined): Rarity | null => {
   switch (value) {
-    case Rarities.EPIC:
-      return Rarities.EPIC;
-    case Rarities.COMMON:
-      return Rarities.COMMON;
-    case Rarities.RARE:
-      return Rarities.RARE;
-    case Rarities.LEGENDARY:
-      return Rarities.LEGENDARY;
+    case Rarity.EPIC:
+      return Rarity.EPIC;
+    case Rarity.COMMON:
+      return Rarity.COMMON;
+    case Rarity.RARE:
+      return Rarity.RARE;
+    case Rarity.LEGENDARY:
+      return Rarity.LEGENDARY;
     default:
       return null;
   }
 };
 
 export const convertToBuffer = (value: string | undefined): Buffer | null => {
-  if (!value){
+  if (!value) {
     return null;
   }
   return Buffer.from(value, 'utf-8');
