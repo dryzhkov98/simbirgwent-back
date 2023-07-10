@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService as NestJwtService } from '@nestjs/jwt';
 import { AppConfigService } from '../../config/app-config/app-config.service';
 import { AppConfig } from '../../config/app.config';
@@ -23,15 +23,23 @@ export class JwtService {
   }
 
   verifyAccessToken(token: string): Promise<IAccessTokenPayload> {
-    return this.jwtService.verifyAsync<IAccessTokenPayload>(token, {
-      secret: this.configService.get<string>('ACCESS_TOKEN_SECRET'),
-    });
+    try {
+      return this.jwtService.verifyAsync<IAccessTokenPayload>(token, {
+        secret: this.configService.get<string>('ACCESS_TOKEN_SECRET'),
+      });
+    } catch (err) {
+      throw new UnauthorizedException(err.message);
+    }
   }
 
   verifyRefreshToken(token: string): Promise<IRefreshTokenPayload> {
-    return this.jwtService.verifyAsync<IRefreshTokenPayload>(token, {
-      secret: this.configService.get<string>('REFRESH_TOKEN_SECRET'),
-    });
+    try {
+      return this.jwtService.verifyAsync<IRefreshTokenPayload>(token, {
+        secret: this.configService.get<string>('REFRESH_TOKEN_SECRET'),
+      });
+    } catch (err) {
+      throw new UnauthorizedException(err.message);
+    }
   }
 
   private signAccessToken(user: User): Promise<string> {

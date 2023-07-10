@@ -9,9 +9,15 @@ import { AppConfigModule } from '../../config/app-config/app-config.module';
 import { AppConfig } from '../../config/app.config';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './guards/auth.guard';
+import { UserModule } from '../user/user.module';
 
 @Module({
-  imports: [DatabaseModule, JwtModule, AppConfigModule.forRoot(AppConfig)],
+  imports: [
+    DatabaseModule,
+    JwtModule,
+    AppConfigModule.forRoot(AppConfig),
+    UserModule,
+  ],
   controllers: [AuthController],
   providers: [
     AuthService,
