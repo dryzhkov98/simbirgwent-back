@@ -4,7 +4,7 @@ import { DatabaseService } from '../database/database.service';
 import { JwtService } from './jwt.service';
 import { PasswordService } from './password.service';
 import { ITokens } from './interfaces/tokens.interface';
-import { LoginUserDto } from './dto/login-user.dto';
+import { SignInUserDto } from './dto/sign-in-user.dto';
 import { User } from '@prisma/client';
 import { isEmail } from 'class-validator';
 
@@ -35,16 +35,16 @@ export class AuthService {
     return this.jwtService.generateTokens(user);
   }
 
-  async signIn(loginUserDto: LoginUserDto): Promise<ITokens> {
+  async signIn(signInUserDto: SignInUserDto): Promise<ITokens> {
     const user = await this.findUserByNicknameOrEmail(
-      loginUserDto.nicknameOrEmail,
+      signInUserDto.nicknameOrEmail,
     );
     if (!user) {
       throw new BadRequestException('Wrong login or password, try again.');
     }
 
     const isPasswordCorrect = await this.passwordService.compare(
-      loginUserDto.password,
+      signInUserDto.password,
       user.password,
       user.salt,
     );
