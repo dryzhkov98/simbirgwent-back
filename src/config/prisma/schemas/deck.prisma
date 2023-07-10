@@ -1,0 +1,7 @@
+model Deck {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @db.VarChar(255)
+  description String   @db.Text
+  fraction    Fraction
+  cards       Card[]
+}

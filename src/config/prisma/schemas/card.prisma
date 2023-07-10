@@ -25,20 +25,3 @@ enum Fraction {
   MONSTERS
   NILFGAARD
 }
-
-generator client {
-  provider = "prisma-client-js"
-}
-
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-model Deck {
-  id          String   @id @default(uuid()) @db.Uuid
-  name        String   @db.VarChar(255)
-  description String   @db.Text
-  fraction    Fraction
-  cards       Card[]
-}
