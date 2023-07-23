@@ -11,6 +11,17 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+# Envs
+
+.env
+.env.develop
+.env.test
+
+# Infra
+
+infra/**/volume
+infra/**/.env
+
 # OS
 .DS_Store
 
