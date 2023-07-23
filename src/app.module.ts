@@ -6,9 +6,15 @@ import { HttpExceptionFilter } from '@/filter/http-exception.filter';
 import { LoggerModule } from './config/logger/logger.module';
 import { LoggerMiddleware } from '@/middleware/logger.middleware';
 import { DatabaseModule } from './modules/database/database.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
-  imports: [AppConfigModule.forRoot(AppConfig), DatabaseModule, LoggerModule],
+  imports: [
+    AppConfigModule.forRoot(AppConfig),
+    DatabaseModule,
+    LoggerModule,
+    AuthModule,
+  ],
   controllers: [],
   providers: [
     {
