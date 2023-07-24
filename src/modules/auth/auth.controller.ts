@@ -1,10 +1,20 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Req,
+  Res,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { AuthService } from './auth.service';
-import { AuthResponseDto } from './dto/auth-response.dto';
-import { Response } from 'express';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { IResponse } from './interfaces/response.interface';
+import { Request, Response } from 'express';
+import { SignInUserDto } from './dto/sign-in-user.dto';
+import { REFRESH_TOKEN_KEY } from './auth.constants';
+import { AuthResponseDto } from './dto/auth-response.dto';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -23,7 +33,44 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response,
   ): Promise<IResponse> {
     const { access, refresh } = await this.authService.signUp(createUserDto);
-    response.cookie('refreshToken', refresh, { httpOnly: true });
+    response.cookie(REFRESH_TOKEN_KEY, refresh, { httpOnly: true });
+    return { access };
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('sign-in')
+  @ApiOperation({ summary: "User's login" })
+  @ApiResponse({
+    status: 200,
+    type: AuthResponseDto,
+    description: 'User has been successfully logged in',
+  })
+  async signIn(
+    @Body() signInUserDto: SignInUserDto,
+    @Res({ passthrough: true }) response: Response,
+  ): Promise<IResponse> {
+    const { access, refresh } = await this.authService.signIn(signInUserDto);
+    response.cookie(REFRESH_TOKEN_KEY, refresh, { httpOnly: true });
+    return { access };
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('refresh-tokens')
+  @ApiOperation({ summary: "User's tokens refresh" })
+  @ApiResponse({
+    status: 200,
+    type: AuthResponseDto,
+    description: 'User has successfully refreshed tokens',
+  })
+  async refreshTokens(
+    @Req() request: Request,
+    @Res({ passthrough: true }) response: Response,
+  ): Promise<IResponse> {
+    const refreshToken = request.cookies[REFRESH_TOKEN_KEY];
+    const { access, refresh } = await this.authService.refreshTokens(
+      refreshToken,
+    );
+    response.cookie(REFRESH_TOKEN_KEY, refresh, { httpOnly: true });
     return { access };
   }
 }
