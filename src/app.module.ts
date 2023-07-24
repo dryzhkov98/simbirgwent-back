@@ -6,6 +6,7 @@ import { HttpExceptionFilter } from '@/filter/http-exception.filter';
 import { LoggerModule } from './config/logger/logger.module';
 import { LoggerMiddleware } from '@/middleware/logger.middleware';
 import { DatabaseModule } from './modules/database/database.module';
+import { CardsModule } from './modules/cards/cards.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 
@@ -14,6 +15,7 @@ import { UserModule } from './modules/user/user.module';
     AppConfigModule.forRoot(AppConfig),
     DatabaseModule,
     LoggerModule,
+    CardsModule,
     AuthModule,
     UserModule,
   ],
