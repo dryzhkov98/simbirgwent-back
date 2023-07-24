@@ -1,3 +1,31 @@
+model Card {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @db.VarChar(255)
+  description String   @db.Text
+  image       Bytes    @db.ByteA
+  power       Int      @db.Integer
+  abilities   Json[]   @db.JsonB
+  rarity      Rarity
+  fraction    Fraction
+  Deck        Deck?    @relation(fields: [deckId], references: [id], onUpdate: Cascade)
+  deckId      String?  @db.Uuid
+}
+
+enum Rarity {
+  COMMON
+  RARE
+  EPIC
+  LEGENDARY
+}
+
+enum Fraction {
+  NORTHERN_KINGDOMS
+  SKELLIGE
+  SKEWERS
+  MONSTERS
+  NILFGAARD
+}
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -5,6 +33,14 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Deck {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @db.VarChar(255)
+  description String   @db.Text
+  fraction    Fraction
+  cards       Card[]
 }
 
 model User {
