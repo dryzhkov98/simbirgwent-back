@@ -1,25 +1,25 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { DatabaseService } from '../database/database.service';
 import { JwtService } from './jwt.service';
 import { PasswordService } from './password.service';
 import { ITokens } from './interfaces/tokens.interface';
 import { SignInUserDto } from './dto/sign-in-user.dto';
-import { User } from '@prisma/client';
-import { isEmail } from 'class-validator';
+import { UserRepository } from '../user/repositories/user.repository';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly databaseService: DatabaseService,
     private readonly jwtService: JwtService,
     private readonly passwordService: PasswordService,
+    private readonly userRepository: UserRepository,
+    private readonly userService: UserService,
   ) {}
 
   async signUp(createUserDto: CreateUserDto): Promise<ITokens> {
-    const isUserExist = await this.databaseService.user.findUnique({
-      where: { email: createUserDto.email },
-    });
+    const isUserExist = await this.userRepository.findOneByEmail(
+      createUserDto.email,
+    );
 
     if (isUserExist) {
       throw new BadRequestException('User already exists.');
@@ -28,15 +28,17 @@ export class AuthService {
       createUserDto.password,
     );
 
-    const user = await this.databaseService.user.create({
-      data: { ...createUserDto, password: hashedPassword, salt },
+    const user = await this.userRepository.create({
+      ...createUserDto,
+      password: hashedPassword,
+      salt,
     });
 
     return this.jwtService.generateTokens(user);
   }
 
   async signIn(signInUserDto: SignInUserDto): Promise<ITokens> {
-    const user = await this.findUserByNicknameOrEmail(
+    const user = await this.userService.findUserByNicknameOrEmail(
       signInUserDto.nicknameOrEmail,
     );
     if (!user) {
@@ -61,25 +63,12 @@ export class AuthService {
     }
 
     const { sub: id } = await this.jwtService.verifyRefreshToken(refreshToken);
-    const user = await this.databaseService.user.findUnique({ where: { id } });
+    const user = await this.userRepository.findOneById(id);
 
     if (!user) {
       throw new BadRequestException('Invalid refreshToken.');
     }
 
     return this.jwtService.generateTokens(user);
-  }
-
-  private findUserByNicknameOrEmail(
-    nicknameOrEmail: string,
-  ): Promise<User | null> {
-    if (isEmail(nicknameOrEmail)) {
-      return this.databaseService.user.findUnique({
-        where: { email: nicknameOrEmail },
-      });
-    }
-    return this.databaseService.user.findUnique({
-      where: { nickname: nicknameOrEmail },
-    });
   }
 }
