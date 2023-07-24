@@ -13,14 +13,14 @@ export class CreateCardDto {
   description: string;
 
   @ApiProperty()
-  @IsNumber()
+  @IsString()
   image: string;
 
   @ApiProperty()
   @IsNumber()
   power: number;
 
-  @ApiProperty()
+  //@ApiProperty()
   @ValidateNested({ each: true })
   @Type(() => Ability)
   abilities: Ability[];

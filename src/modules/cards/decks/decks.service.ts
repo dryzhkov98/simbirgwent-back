@@ -23,7 +23,7 @@ export class DecksService {
       data: {
         name: createDeckDto.name,
         description: createDeckDto.description,
-        cards: { connect: createDeckDto.cards.map((id) => ({ id })) },
+        // cards: { connect: createDeckDto.cards.map((id) => ({ id })) },
         fraction,
       },
     });
@@ -34,8 +34,9 @@ export class DecksService {
   }
 
   async findOneDeck(id: string): Promise<Deck> {
-    const deck = await this.databaseService.card.findUnique({ where: { id } });
+    const deck = await this.databaseService.deck.findUnique({ where: { id } });
     if (!deck) {
+      console.log('deck not found');
       throw new NotFoundException('Deck not found');
     }
     return deck;
@@ -52,7 +53,7 @@ export class DecksService {
       data: {
         name: updateDeckDto.name,
         description: updateDeckDto.description,
-        cards: { connect: updateDeckDto?.cards?.map((id) => ({ id })) },
+        // cards: { connect: updateDeckDto?.cards?.map((id) => ({ id })) },
         ...newDeckData,
       },
     });

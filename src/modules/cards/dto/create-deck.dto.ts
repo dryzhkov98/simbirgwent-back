@@ -14,7 +14,7 @@ export class CreateDeckDto {
   @IsString()
   fraction: string;
 
-  @ApiProperty()
-  @IsString({ each: true })
-  cards: string[];
+  // @ApiProperty()
+  // @IsString({ each: true })
+  // cards: string[];
 }

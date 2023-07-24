@@ -19,17 +19,21 @@ export class CardsService {
   constructor(private readonly databaseService: DatabaseService) {}
 
   createCard(createCardDto: CreateCardDto): Promise<Card> {
+    console.log('creating card');
     const fraction = convertToFraction(createCardDto.fraction);
     if (!fraction) {
-      throw new BadRequestException('Invalid fraction');
+      console.log('Invalid fraction');
+      throw new BadRequestException('Invalid fraction', 'Invalid fraction');
     }
     const rarity = convertToRarity(createCardDto.rarity);
     if (!rarity) {
-      throw new BadRequestException('Invalid rarity');
+      console.log('Invalid rarity');
+      throw new BadRequestException('Invalid rarity', 'Invalid rarity');
     }
     const image = convertToBuffer(createCardDto.image);
     if (!image) {
-      throw new BadRequestException('Invalid image');
+      console.log('Invalid image');
+      throw new BadRequestException('Invalid image', 'Invalid image');
     }
     return this.databaseService.card.create({
       data: {
