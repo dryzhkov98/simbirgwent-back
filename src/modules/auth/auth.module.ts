@@ -7,10 +7,20 @@ import { PasswordService } from './password.service';
 import { JwtService } from './jwt.service';
 import { AppConfigModule } from '../../config/app-config/app-config.module';
 import { AppConfig } from '../../config/app.config';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './guards/auth.guard';
 
 @Module({
   imports: [DatabaseModule, JwtModule, AppConfigModule.forRoot(AppConfig)],
   controllers: [AuthController],
-  providers: [AuthService, PasswordService, JwtService],
+  providers: [
+    AuthService,
+    PasswordService,
+    JwtService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+  ],
 })
 export class AuthModule {}

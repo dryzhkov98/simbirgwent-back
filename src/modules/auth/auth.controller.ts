@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { AuthService } from './auth.service';
-import { IResponse } from './interfaces/response.interface';
+import { IAuthResponse } from './interfaces/auth-response.interface';
 import { Request, Response } from 'express';
 import { SignInUserDto } from './dto/sign-in-user.dto';
 import { REFRESH_TOKEN_KEY } from './auth.constants';
@@ -31,7 +31,7 @@ export class AuthController {
   async signUp(
     @Body() createUserDto: CreateUserDto,
     @Res({ passthrough: true }) response: Response,
-  ): Promise<IResponse> {
+  ): Promise<IAuthResponse> {
     const { access, refresh } = await this.authService.signUp(createUserDto);
     response.cookie(REFRESH_TOKEN_KEY, refresh, { httpOnly: true });
     return { access };
@@ -48,7 +48,7 @@ export class AuthController {
   async signIn(
     @Body() signInUserDto: SignInUserDto,
     @Res({ passthrough: true }) response: Response,
-  ): Promise<IResponse> {
+  ): Promise<IAuthResponse> {
     const { access, refresh } = await this.authService.signIn(signInUserDto);
     response.cookie(REFRESH_TOKEN_KEY, refresh, { httpOnly: true });
     return { access };
@@ -65,7 +65,7 @@ export class AuthController {
   async refreshTokens(
     @Req() request: Request,
     @Res({ passthrough: true }) response: Response,
-  ): Promise<IResponse> {
+  ): Promise<IAuthResponse> {
     const refreshToken = request.cookies[REFRESH_TOKEN_KEY];
     const { access, refresh } = await this.authService.refreshTokens(
       refreshToken,

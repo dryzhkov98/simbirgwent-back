@@ -60,5 +60,5 @@ model User {
 enum Role {
   CANDIDATE
   PLAYER
-  GAMER_MASTER
+  GAME_MASTER
 }

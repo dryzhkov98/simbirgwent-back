@@ -8,7 +8,6 @@ import { SignInUserDto } from './dto/sign-in-user.dto';
 import { User } from '@prisma/client';
 import { isEmail } from 'class-validator';
 
-
 @Injectable()
 export class AuthService {
   constructor(
@@ -35,7 +34,7 @@ export class AuthService {
 
     return this.jwtService.generateTokens(user);
   }
-  
+
   async signIn(signInUserDto: SignInUserDto): Promise<ITokens> {
     const user = await this.findUserByNicknameOrEmail(
       signInUserDto.nicknameOrEmail,

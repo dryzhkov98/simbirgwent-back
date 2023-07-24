@@ -53,7 +53,7 @@ export class AppConfig extends ApplicationConfig implements IConfigApp {
   DB_SCHEMA: string;
 
   /* Prisma DB URL */
-
+  @IsString()
   DATABASE_URL: string;
 
   /* Tokens */

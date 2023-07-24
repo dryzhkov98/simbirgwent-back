@@ -1,7 +1,7 @@
-import { IResponse } from '../interfaces/response.interface';
+import { IAuthResponse } from '../interfaces/auth-response.interface';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class AuthResponseDto implements IResponse {
+export class AuthResponseDto implements IAuthResponse {
   @ApiProperty({
     description: 'Access token',
     type: String,
