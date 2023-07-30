@@ -15,3 +15,11 @@ export function formatErrorMessage(errors: ValidationError[]): string {
       .join('\n')
   );
 }
+
+export function hidePassword<T extends object>(obj: T): Omit<T, 'password'> {
+  if ('password' in obj) {
+    const { password: _password, ...withoutPassword } = obj;
+    return withoutPassword;
+  }
+  return obj;
+}

@@ -1,6 +1,7 @@
 import { Inject, Injectable, Logger, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { LoggerService } from '../../config/logger/logger.service';
+import { hidePassword } from '@/utils/index';
 
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
@@ -13,7 +14,7 @@ export class LoggerMiddleware implements NestMiddleware {
         this.logger.log(
           `\n[status]: ${res.statusCode}\n[host]: ${
             req?.headers?.host
-          }\n[body]: ${JSON.stringify(req?.body)} `,
+          }\n[body]: ${JSON.stringify(hidePassword(req.body))} `,
         );
       }
     });
