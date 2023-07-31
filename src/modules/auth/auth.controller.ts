@@ -14,6 +14,7 @@ import { SignInUserDto } from './dto/sign-in-user.dto';
 import { REFRESH_TOKEN_KEY } from './auth.constants';
 import { AuthResponseDto } from './dto/auth-response.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { SignOutResponseDto } from './dto/sign-out-response.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -71,5 +72,20 @@ export class AuthController {
     );
     response.cookie(REFRESH_TOKEN_KEY, refresh, { httpOnly: true });
     return { access };
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('sign-out')
+  @ApiOperation({ summary: "User's sign out" })
+  @ApiResponse({
+    status: 200,
+    type: SignOutResponseDto,
+    description: 'User signed out successfully',
+  })
+  async signOut(
+    @Res({ passthrough: true }) response: Response,
+  ): Promise<SignOutResponseDto> {
+    response.clearCookie(REFRESH_TOKEN_KEY, { httpOnly: true });
+    return { message: 'User signed out successfully' };
   }
 }
