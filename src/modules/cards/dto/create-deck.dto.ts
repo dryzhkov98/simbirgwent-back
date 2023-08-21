@@ -23,7 +23,7 @@ export class CreateDeckDto {
 
   @ApiProperty({
     description: 'Deck Fraction',
-    type: Fraction,
+    enum: Fraction,
     example: 'SKEWERS',
     required: true,
   })
@@ -33,7 +33,7 @@ export class CreateDeckDto {
   @ApiProperty({
     nullable: true,
     description: 'UUIDs of cards of the deck',
-    type: Array(String),
+    type: [String],
     example: [
       '7441968f-06c1-481b-b8f4-24141221dd',
       '7441968f-06c1-481b-321c-9c52b5064045',

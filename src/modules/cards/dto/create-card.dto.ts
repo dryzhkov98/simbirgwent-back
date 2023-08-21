@@ -45,7 +45,7 @@ export class CreateCardDto {
 
   @ApiProperty({
     description: 'Cards abilities',
-    type: Array(Ability),
+    type: [Ability],
     example: [
       {
         name: 'Berserker',
@@ -62,7 +62,7 @@ export class CreateCardDto {
 
   @ApiProperty({
     description: 'Card Rarity',
-    type: Rarity,
+    enum: Rarity,
     example: 'EPIC',
     required: true,
   })
@@ -71,7 +71,7 @@ export class CreateCardDto {
 
   @ApiProperty({
     description: 'Card Fraction',
-    type: Fraction,
+    enum: Fraction,
     example: 'SKEWERS',
     required: true,
   })

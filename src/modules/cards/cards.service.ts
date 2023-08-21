@@ -23,17 +23,17 @@ export class CardsService {
     const fraction = convertToFraction(createCardDto.fraction);
     if (!fraction) {
       console.log('Invalid fraction');
-      throw new BadRequestException('Invalid fraction', 'Invalid fraction');
+      throw new BadRequestException('Invalid fraction', );
     }
     const rarity = convertToRarity(createCardDto.rarity);
     if (!rarity) {
       console.log('Invalid rarity');
-      throw new BadRequestException('Invalid rarity', 'Invalid rarity');
+      throw new BadRequestException('Invalid rarity');
     }
     const image = convertToBuffer(createCardDto.image);
     if (!image) {
       console.log('Invalid image');
-      throw new BadRequestException('Invalid image', 'Invalid image');
+      throw new BadRequestException('Invalid image');
     }
     return this.databaseService.card.create({
       data: {
