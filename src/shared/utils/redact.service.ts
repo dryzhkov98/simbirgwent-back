@@ -16,28 +16,28 @@ export class RedactService {
     return this.sensitiveKeys.some((sk) => sk.test(key));
   }
 
-  redact<T>(obj: T): T {
-    if (typeof obj !== 'object' || obj == null) {
-      return obj;
+  redact<T>(value: T): T {
+    if (typeof value !== 'object' || value == null) {
+      return value;
     }
 
-    if (Array.isArray(obj)) {
-      return obj.map((item) => this.redact(item)) as T;
+    if (Array.isArray(value)) {
+      return value.map((item) => this.redact(item)) as T;
     }
 
     const clone = {} as T;
-    for (const key in obj) {
+    for (const key in value) {
       if (this.isSensitiveKey(key)) {
         clone[key] = '[REDACTED]' as T[Extract<keyof T, string>];
       } else {
-        clone[key] = this.redact(obj[key]);
+        clone[key] = this.redact(value[key]);
       }
     }
 
     // to iterate symbol keys
-    for (const key of Object.getOwnPropertySymbols(obj)) {
+    for (const key of Object.getOwnPropertySymbols(value)) {
       const symbolKey = key as keyof T;
-      clone[symbolKey] = this.redact(obj[symbolKey]);
+      clone[symbolKey] = this.redact(value[symbolKey]);
     }
 
     return clone;
