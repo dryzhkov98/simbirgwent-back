@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
-import { IS_PRIVATE } from '../decorators/auth.decorator';
+import { IS_PRIVATE } from '../auth.constants';
 import { JwtService } from '../jwt.service';
 import { REQUEST_USER_KEY } from '../auth.constants';
 import { ICustomRequest } from '../interfaces/custom-request.interface';
