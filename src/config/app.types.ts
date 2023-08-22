@@ -4,6 +4,10 @@ export interface IConfigApp {
   PORT: number;
   URL: string;
   VERSION: string;
+  DESCRIPTION: string;
+  MODE: string;
+  API_DOCS_PATH: string;
+  SENSITIVE_KEYS: string;
 
   /* DATABASE settings */
   DATABASE: string;
