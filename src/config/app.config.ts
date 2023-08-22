@@ -72,4 +72,7 @@ export class AppConfig extends ApplicationConfig implements IConfigApp {
 
   @IsString()
   REFRESH_TOKEN_TTL: string;
+
+  @IsNumber()
+  SALT_SIZE: number;
 }

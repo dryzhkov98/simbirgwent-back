@@ -27,4 +27,5 @@ export interface IConfigApp {
   REFRESH_TOKEN_SECRET: string;
   ACCESS_TOKEN_TTL: string;
   REFRESH_TOKEN_TTL: string;
+  SALT_SIZE: number;
 }
