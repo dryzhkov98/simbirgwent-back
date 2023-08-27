@@ -12,12 +12,14 @@ import { CreateDeckDto } from './dto/create-deck.dto';
 import { UpdateDeckDto } from './dto/update-deck.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeckResponseDto } from './dto/deck-response.dto';
+import { Auth } from '@/decorator/auth.decorator';
 
 @ApiTags('decks')
 @Controller('decks')
 export class DecksController {
   constructor(private readonly cardsService: DecksService) {}
 
+  @Auth()
   @Post()
   @ApiOperation({ summary: "Deck's creation" })
   @ApiResponse({
@@ -51,6 +53,7 @@ export class DecksController {
     return this.cardsService.findOneDeck(id);
   }
 
+  @Auth()
   @Patch(':id')
   @ApiOperation({ summary: 'Update a deck by id ' })
   @ApiResponse({
@@ -65,6 +68,7 @@ export class DecksController {
     return this.cardsService.updateDeck(id, updateDeckDto);
   }
 
+  @Auth()
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a deck by id ' })
   @ApiResponse({
