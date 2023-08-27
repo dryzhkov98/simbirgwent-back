@@ -7,13 +7,11 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-
 import { DecksService } from './decks.service';
-import { Deck } from '@prisma/client';
-import { CreateDeckDto } from '../dto/create-deck.dto';
-import { UpdateDeckDto } from '../dto/update-deck.dto';
+import { CreateDeckDto } from './dto/create-deck.dto';
+import { UpdateDeckDto } from './dto/update-deck.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { DeckResponseDto } from '../dto/deck-response.dto';
+import { DeckResponseDto } from './dto/deck-response.dto';
 
 @ApiTags('decks')
 @Controller('decks')
@@ -38,7 +36,7 @@ export class DecksController {
     type: [DeckResponseDto],
     description: 'Get all decks',
   })
-  findAll(): Promise<Deck[]> {
+  findAll(): Promise<DeckResponseDto[]> {
     return this.cardsService.findAllDecks();
   }
 
@@ -63,7 +61,7 @@ export class DecksController {
   update(
     @Param('id') id: string,
     @Body() updateDeckDto: UpdateDeckDto,
-  ): Promise<Deck> {
+  ): Promise<DeckResponseDto> {
     return this.cardsService.updateDeck(id, updateDeckDto);
   }
 

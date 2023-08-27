@@ -1,47 +1,42 @@
-import { Fraction, Rarity } from '@prisma/client';
-import { BadRequestException } from '@nestjs/common';
+import { Card, Prisma } from '@prisma/client';
+import { UpdateCardDto } from './dto/update-card.dto';
+import { CreateCardDto } from './dto/create-card.dto';
+import { CardResponseDto } from './dto/card-response.dto';
+import { plainToInstance } from 'class-transformer';
+import { Ability } from './dto/ability.dto';
 
-export const convertToFraction = <T extends string | (string | undefined)>(
-  value: T,
-): T extends string ? Fraction : Fraction | null => {
-  switch (value) {
-    case Fraction.MONSTERS:
-      return Fraction.MONSTERS;
-    case Fraction.NILFGAARD:
-      return Fraction.NILFGAARD;
-    case Fraction.SKELLIGE:
-      return Fraction.SKELLIGE;
-    case Fraction.SKEWERS:
-      return Fraction.SKEWERS;
-    case Fraction.NORTHERN_KINGDOMS:
-      return Fraction.NORTHERN_KINGDOMS;
-    default:
-      throw new BadRequestException('Invalid fraction');
-  }
-};
+export function prepareCardDtoForCreate(
+  cardDto: CreateCardDto,
+): Prisma.CardCreateInput {
+  return {
+    ...cardDto,
+    abilities: cardDto.abilities.map((ability) => ({ ...ability })),
+    image: Buffer.from(cardDto.image),
+    Deck: {
+      connect: { id: cardDto.deckId },
+    },
+  };
+}
 
-export const convertToRarity = <T extends string | (string | undefined)>(
-  value: T,
-): T extends string ? Rarity : Rarity | null => {
-  switch (value) {
-    case Rarity.EPIC:
-      return Rarity.EPIC;
-    case Rarity.COMMON:
-      return Rarity.COMMON;
-    case Rarity.RARE:
-      return Rarity.RARE;
-    case Rarity.LEGENDARY:
-      return Rarity.LEGENDARY;
-    default:
-      throw new BadRequestException('Invalid rarity');
-  }
-};
+export function prepareCardDtoForUpdate(
+  cardDto: UpdateCardDto,
+): Prisma.CardUpdateInput {
+  return {
+    ...cardDto,
+    abilities: cardDto.abilities?.map((a) => ({ ...a })),
+    image: cardDto.image ? Buffer.from(cardDto.image) : undefined,
+    Deck: cardDto.deckId
+      ? {
+          connect: { id: cardDto.deckId },
+        }
+      : undefined,
+  };
+}
 
-export const convertToBuffer = <T extends string | (string | undefined)>(
-  value: T,
-): T extends string ? Buffer : Buffer | null => {
-  if (!value) {
-    throw new BadRequestException('Invalid image');
-  }
-  return Buffer.from(value, 'utf-8');
-};
+export function convertCardDtoFromDb(card: Card): CardResponseDto {
+  return {
+    ...card,
+    image: card.image.toString(),
+    abilities: card.abilities.map((a) => plainToInstance(Ability, a)),
+  };
+}

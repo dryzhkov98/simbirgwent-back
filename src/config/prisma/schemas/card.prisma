@@ -7,8 +7,8 @@ model Card {
   abilities   Json[]   @db.JsonB
   rarity      Rarity
   fraction    Fraction
-  Deck        Deck?    @relation(fields: [deckId], references: [id])
-  deckId      String?  @db.Uuid
+  Deck        Deck    @relation(fields: [deckId], references: [id])
+  deckId      String  @db.Uuid
 }
 
 enum Rarity {

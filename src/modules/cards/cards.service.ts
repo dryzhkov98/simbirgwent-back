@@ -1,90 +1,42 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
-import { DatabaseService } from '../database/database.service';
-import {
-  convertToBuffer,
-  convertToFraction,
-  convertToRarity,
-} from './cards.utils';
-import { Card } from '@prisma/client';
-import { INewCardData } from './interfaces/new-card-data.interface';
+import { CardRepository } from './repositories/cards.repository';
+import { CardResponseDto } from './dto/card-response.dto';
+import { convertCardDtoFromDb } from './cards.utils';
 
 @Injectable()
 export class CardsService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(private readonly cardRepository: CardRepository) {}
 
-  createCard(createCardDto: CreateCardDto): Promise<Card> {
-    console.log('creating card');
-    const fraction = convertToFraction(createCardDto.fraction);
-    if (!fraction) {
-      console.log('Invalid fraction');
-      throw new BadRequestException('Invalid fraction');
-    }
-    const rarity = convertToRarity(createCardDto.rarity);
-    if (!rarity) {
-      console.log('Invalid rarity');
-      throw new BadRequestException('Invalid rarity');
-    }
-    const image = convertToBuffer(createCardDto.image);
-    if (!image) {
-      console.log('Invalid image');
-      throw new BadRequestException('Invalid image');
-    }
-    return this.databaseService.card.create({
-      data: {
-        ...createCardDto,
-        abilities: createCardDto.abilities.map((ability) => ({ ...ability })),
-        image,
-        rarity,
-        fraction,
-      },
-    });
+  async createCard(createCardDto: CreateCardDto): Promise<CardResponseDto> {
+    const card = await this.cardRepository.create(createCardDto);
+    return convertCardDtoFromDb(card);
   }
 
-  findAllCards(): Promise<Card[]> {
-    return this.databaseService.card.findMany();
+  async findAllCards(): Promise<CardResponseDto[]> {
+    const cards = await this.cardRepository.findAll();
+    return cards.map((c) => convertCardDtoFromDb(c));
   }
 
-  async findOneCard(id: string): Promise<Card> {
-    const card = await this.databaseService.card.findUnique({ where: { id } });
+  async findOneCard(id: string): Promise<CardResponseDto> {
+    const card = await this.cardRepository.findOneById(id);
     if (!card) {
       throw new NotFoundException('Card not found');
     }
-    return card;
+    return convertCardDtoFromDb(card);
   }
 
-  async updateCard(id: string, updateCardDto: UpdateCardDto): Promise<Card> {
-    const newCardData: INewCardData = {};
-    const fraction = convertToFraction(updateCardDto.fraction);
-    if (fraction) {
-      newCardData.fraction = fraction;
-    }
-    const rarity = convertToRarity(updateCardDto.rarity);
-    if (rarity) {
-      newCardData.rarity = rarity;
-    }
-    const image = convertToBuffer(updateCardDto.image);
-    if (image) {
-      newCardData.image = image;
-    }
-    return this.databaseService.card.update({
-      where: { id },
-      data: {
-        name: updateCardDto.name,
-        abilities: updateCardDto?.abilities?.map((ability) => ({ ...ability })),
-        description: updateCardDto.description,
-        power: updateCardDto.power,
-        ...newCardData,
-      },
-    });
+  async updateCard(
+    id: string,
+    updateCardDto: UpdateCardDto,
+  ): Promise<CardResponseDto> {
+    const card = await this.cardRepository.update(id, updateCardDto);
+    return convertCardDtoFromDb(card);
   }
 
-  removeCard(id: string): Promise<Card> {
-    return this.databaseService.card.delete({ where: { id } });
+  async deleteCard(id: string): Promise<CardResponseDto> {
+    const card = await this.cardRepository.delete(id);
+    return convertCardDtoFromDb(card);
   }
 }

@@ -10,7 +10,6 @@ import {
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
-import { Card } from '@prisma/client';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CardResponseDto } from './dto/card-response.dto';
 
@@ -26,7 +25,7 @@ export class CardsController {
     type: CardResponseDto,
     description: 'Card has been created',
   })
-  create(@Body() createCardDto: CreateCardDto): Promise<Card> {
+  create(@Body() createCardDto: CreateCardDto): Promise<CardResponseDto> {
     return this.cardsService.createCard(createCardDto);
   }
 
@@ -37,7 +36,7 @@ export class CardsController {
     description: 'Get all cards',
   })
   @Get()
-  findAll(): Promise<Card[]> {
+  findAll(): Promise<CardResponseDto[]> {
     return this.cardsService.findAllCards();
   }
 
@@ -48,7 +47,7 @@ export class CardsController {
     description: 'Get one card',
   })
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<Card> {
+  findOne(@Param('id') id: string): Promise<CardResponseDto> {
     return this.cardsService.findOneCard(id);
   }
 
@@ -62,7 +61,7 @@ export class CardsController {
   update(
     @Param('id') id: string,
     @Body() updateCardDto: UpdateCardDto,
-  ): Promise<Card> {
+  ): Promise<CardResponseDto> {
     return this.cardsService.updateCard(id, updateCardDto);
   }
 
@@ -73,7 +72,7 @@ export class CardsController {
     description: 'Delete one card',
   })
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<Card> {
-    return this.cardsService.removeCard(id);
+  remove(@Param('id') id: string): Promise<CardResponseDto> {
+    return this.cardsService.deleteCard(id);
   }
 }
