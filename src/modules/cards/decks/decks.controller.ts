@@ -13,7 +13,7 @@ import { Deck } from '@prisma/client';
 import { CreateDeckDto } from '../dto/create-deck.dto';
 import { UpdateDeckDto } from '../dto/update-deck.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { DeckResponseDto } from "../dto/deck-response.dto";
+import { DeckResponseDto } from '../dto/deck-response.dto';
 
 @ApiTags('decks')
 @Controller('decks')
@@ -27,7 +27,7 @@ export class DecksController {
     type: DeckResponseDto,
     description: 'Deck has been created',
   })
-  create(@Body() createDeckDto: CreateDeckDto): Promise<Deck> {
+  create(@Body() createDeckDto: CreateDeckDto): Promise<DeckResponseDto> {
     return this.cardsService.createDeck(createDeckDto);
   }
 
@@ -49,7 +49,7 @@ export class DecksController {
     type: DeckResponseDto,
     description: 'Get one deck',
   })
-  findOne(@Param('id') id: string): Promise<Deck> {
+  findOne(@Param('id') id: string): Promise<DeckResponseDto> {
     return this.cardsService.findOneDeck(id);
   }
 
@@ -74,7 +74,7 @@ export class DecksController {
     type: DeckResponseDto,
     description: 'Delete one deck',
   })
-  remove(@Param('id') id: string): Promise<Deck> {
+  remove(@Param('id') id: string): Promise<DeckResponseDto> {
     return this.cardsService.removeDeck(id);
   }
 }

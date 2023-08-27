@@ -43,5 +43,5 @@ export class CreateDeckDto {
   })
   @IsOptional()
   @IsString({ each: true })
-  cards: string[];
+  cards?: string[];
 }
