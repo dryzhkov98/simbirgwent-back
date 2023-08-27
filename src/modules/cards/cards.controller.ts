@@ -12,7 +12,7 @@ import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
 import { Card } from '@prisma/client';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CardResponseDto } from "./dto/card-response.dto";
+import { CardResponseDto } from './dto/card-response.dto';
 
 @ApiTags('cards')
 @Controller('cards')

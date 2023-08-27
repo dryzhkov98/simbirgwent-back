@@ -1,6 +1,6 @@
 import { CreateCardDto } from './create-card.dto';
-import { ApiProperty } from "@nestjs/swagger";
-import { IsString } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsString } from 'class-validator';
 
 export class CardResponseDto extends CreateCardDto {
   @ApiProperty({

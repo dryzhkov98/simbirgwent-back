@@ -23,7 +23,7 @@ export class CardsService {
     const fraction = convertToFraction(createCardDto.fraction);
     if (!fraction) {
       console.log('Invalid fraction');
-      throw new BadRequestException('Invalid fraction', );
+      throw new BadRequestException('Invalid fraction');
     }
     const rarity = convertToRarity(createCardDto.rarity);
     if (!rarity) {
