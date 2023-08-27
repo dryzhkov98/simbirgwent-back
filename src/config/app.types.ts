@@ -4,6 +4,10 @@ export interface IConfigApp {
   PORT: number;
   URL: string;
   VERSION: string;
+  DESCRIPTION: string;
+  MODE: string;
+  API_DOCS_PATH: string;
+  SENSITIVE_KEYS: string;
 
   /* DATABASE settings */
   DATABASE: string;
@@ -23,4 +27,5 @@ export interface IConfigApp {
   REFRESH_TOKEN_SECRET: string;
   ACCESS_TOKEN_TTL: string;
   REFRESH_TOKEN_TTL: string;
+  SALT_SIZE: number;
 }

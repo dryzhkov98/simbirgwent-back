@@ -26,6 +26,9 @@ export class AppConfig extends ApplicationConfig implements IConfigApp {
   @IsString()
   public API_DOCS_PATH: string;
 
+  @IsString()
+  public SENSITIVE_KEYS: string;
+
   /* DATABASE settings */
 
   @IsString()
@@ -69,4 +72,7 @@ export class AppConfig extends ApplicationConfig implements IConfigApp {
 
   @IsString()
   REFRESH_TOKEN_TTL: string;
+
+  @IsNumber()
+  SALT_SIZE: number;
 }

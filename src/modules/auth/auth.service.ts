@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { JwtService } from './jwt.service';
 import { PasswordService } from './password.service';
@@ -59,14 +63,14 @@ export class AuthService {
 
   async refreshTokens(refreshToken: string | undefined): Promise<ITokens> {
     if (!refreshToken) {
-      throw new BadRequestException('Invalid refreshToken.');
+      throw new InternalServerErrorException();
     }
 
     const { sub: id } = await this.jwtService.verifyRefreshToken(refreshToken);
     const user = await this.userRepository.findOneById(id);
 
     if (!user) {
-      throw new BadRequestException('Invalid refreshToken.');
+      throw new InternalServerErrorException();
     }
 
     return this.jwtService.generateTokens(user);
