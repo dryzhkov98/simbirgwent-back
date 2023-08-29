@@ -7,7 +7,7 @@ model Card {
   abilities   Json[]   @db.JsonB
   rarity      Rarity
   fraction    Fraction
-  Deck        Deck    @relation(fields: [deckId], references: [id])
+  Deck        Deck    @relation(fields: [deckId], references: [id], onUpdate: Cascade)
   deckId      String  @db.Uuid
 }
 
