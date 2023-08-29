@@ -1,20 +1,47 @@
-import { IsString } from 'class-validator';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Fraction } from '@prisma/client';
 
 export class CreateDeckDto {
-  @ApiProperty()
+  @ApiProperty({
+    description: 'Deck name',
+    type: String,
+    example: 'Power deck',
+    required: true,
+  })
   @IsString()
   name: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    description: 'Deck description',
+    type: String,
+    example: 'This deck is super powerful',
+    required: true,
+  })
   @IsString()
   description: string;
 
-  @ApiProperty()
-  @IsString()
-  fraction: string;
+  @ApiProperty({
+    description: 'Deck Fraction',
+    enum: Fraction,
+    example: 'SKEWERS',
+    required: true,
+  })
+  @IsEnum(Fraction)
+  fraction: Fraction;
 
-  // @ApiProperty()
-  // @IsString({ each: true })
-  // cards: string[];
+  @ApiProperty({
+    nullable: true,
+    description: 'UUIDs of cards of the deck',
+    type: [String],
+    example: [
+      '7441968f-06c1-481b-b8f4-24141221dd',
+      '7441968f-06c1-481b-321c-9c52b5064045',
+      '7441968f-06c1-421s-b8f4-9c52b5064045',
+    ],
+    required: false,
+  })
+  @IsOptional()
+  @IsString({ each: true })
+  cards?: string[];
 }
