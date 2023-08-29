@@ -25,10 +25,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
     const status = exception?.getStatus() ?? HttpStatus.INTERNAL_SERVER_ERROR;
+    const message = getHttpMessage(status) + ' ' + exception.message;
 
     const errorResponse = {
       statusCode: status,
-      message: getHttpMessage(status),
+      message,
       timestamp: new Date().toISOString(),
       path: request.url,
     };
@@ -36,7 +37,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     response.status(status).json({ errorResponse });
 
     this.logger.error(
-      `${getHttpMessage(status)} \n[status]: ${response.statusCode}\n[host]: ${
+      `${message} \n[status]: ${response.statusCode}\n[host]: ${
         request?.headers?.host
       }\n[body]: ${JSON.stringify(this.redactService.redact(request.body))}`,
     );
