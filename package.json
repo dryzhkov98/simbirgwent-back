@@ -6,6 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "seed": "npx prisma db seed",
     "prepare": "npx husky install",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\"",
@@ -29,6 +30,9 @@
       "pre-commit": "npm run pre-commit",
       "pre-push": "npm run prepush"
     }
+  },
+  "prisma": {
+    "seed": "ts-node ./src/config/prisma/seed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",

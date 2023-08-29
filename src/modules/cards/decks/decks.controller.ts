@@ -7,19 +7,19 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-
 import { DecksService } from './decks.service';
-import { Deck } from '@prisma/client';
-import { CreateDeckDto } from '../dto/create-deck.dto';
-import { UpdateDeckDto } from '../dto/update-deck.dto';
+import { CreateDeckDto } from './dto/create-deck.dto';
+import { UpdateDeckDto } from './dto/update-deck.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { DeckResponseDto } from '../dto/deck-response.dto';
+import { DeckResponseDto } from './dto/deck-response.dto';
+import { Auth } from '@/decorator/auth.decorator';
 
 @ApiTags('decks')
 @Controller('decks')
 export class DecksController {
   constructor(private readonly cardsService: DecksService) {}
 
+  @Auth()
   @Post()
   @ApiOperation({ summary: "Deck's creation" })
   @ApiResponse({
@@ -38,7 +38,7 @@ export class DecksController {
     type: [DeckResponseDto],
     description: 'Get all decks',
   })
-  findAll(): Promise<Deck[]> {
+  findAll(): Promise<DeckResponseDto[]> {
     return this.cardsService.findAllDecks();
   }
 
@@ -53,6 +53,7 @@ export class DecksController {
     return this.cardsService.findOneDeck(id);
   }
 
+  @Auth()
   @Patch(':id')
   @ApiOperation({ summary: 'Update a deck by id ' })
   @ApiResponse({
@@ -63,10 +64,11 @@ export class DecksController {
   update(
     @Param('id') id: string,
     @Body() updateDeckDto: UpdateDeckDto,
-  ): Promise<Deck> {
+  ): Promise<DeckResponseDto> {
     return this.cardsService.updateDeck(id, updateDeckDto);
   }
 
+  @Auth()
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a deck by id ' })
   @ApiResponse({
