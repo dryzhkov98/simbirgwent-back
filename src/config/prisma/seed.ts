@@ -7,6 +7,7 @@ async function main(): Promise<void> {
     where: { id: '173df5ce-0d8d-441b-828f-43b419f9fd2c' },
     update: {},
     create: {
+      id: '173df5ce-0d8d-441b-828f-43b419f9fd2c',
       name: 'Test deck name',
       fraction: Fraction.SKELLIGE,
       description: 'Test deck description',
@@ -52,6 +53,7 @@ async function main(): Promise<void> {
     where: { id: 'd7ff98da-457a-4080-ad87-c3e5705a903a' },
     update: {},
     create: {
+      id: 'd7ff98da-457a-4080-ad87-c3e5705a903a',
       name: 'Test deck name 2',
       fraction: Fraction.NORTHERN_KINGDOMS,
       description: 'Test deck description',
