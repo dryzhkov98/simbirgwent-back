@@ -66,7 +66,7 @@ export class CreateCardDto {
     example: 'EPIC',
     required: true,
   })
-  @IsEnum({ Rarity })
+  @IsEnum(Rarity)
   rarity: Rarity;
 
   @ApiProperty({
@@ -75,7 +75,7 @@ export class CreateCardDto {
     example: 'SKEWERS',
     required: true,
   })
-  @IsEnum({ Fraction })
+  @IsEnum(Fraction)
   fraction: Fraction;
 
   @ApiProperty({

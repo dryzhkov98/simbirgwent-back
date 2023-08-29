@@ -8,12 +8,13 @@ import { Ability } from './dto/ability.dto';
 export function prepareCardDtoForCreate(
   cardDto: CreateCardDto,
 ): Prisma.CardCreateInput {
+  const { deckId, ...dto } = cardDto;
   return {
-    ...cardDto,
+    ...dto,
     abilities: cardDto.abilities.map((ability) => ({ ...ability })),
     image: Buffer.from(cardDto.image),
     Deck: {
-      connect: { id: cardDto.deckId },
+      connect: { id: deckId },
     },
   };
 }
@@ -21,13 +22,14 @@ export function prepareCardDtoForCreate(
 export function prepareCardDtoForUpdate(
   cardDto: UpdateCardDto,
 ): Prisma.CardUpdateInput {
+  const { deckId, ...dto } = cardDto;
   return {
-    ...cardDto,
+    ...dto,
     abilities: cardDto.abilities?.map((a) => ({ ...a })),
     image: cardDto.image ? Buffer.from(cardDto.image) : undefined,
     Deck: cardDto.deckId
       ? {
-          connect: { id: cardDto.deckId },
+          connect: { id: deckId },
         }
       : undefined,
   };
