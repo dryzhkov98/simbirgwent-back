@@ -6,7 +6,6 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "seed": "npx prisma db seed",
     "prepare": "npx husky install",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\"",
@@ -22,6 +21,8 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "pre-commit": "npm run lint && npm run format && npm run prisma:compose",
+    "prisma:generate": "npx prisma generate --schema=./src/config/prisma/schema.prisma",
+    "prisma:seed": "npx prisma db seed",
     "prisma:compose": "shx cat ./src/config/prisma/schemas/*.prisma > ./src/config/prisma/schema.prisma && npx prisma format --schema ./src/config/prisma/schema.prisma",
     "prepush": "npm run build"
   },

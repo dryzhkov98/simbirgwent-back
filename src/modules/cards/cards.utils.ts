@@ -36,7 +36,7 @@ export function prepareCardDtoForUpdate(
 }
 
 export function convertCardDtoFromDb(card: Card): CardResponseDto {
-  return {
+  return <CardResponseDto>{
     ...card,
     image: card.image.toString(),
     abilities: card.abilities.map((a) => plainToInstance(Ability, a)),

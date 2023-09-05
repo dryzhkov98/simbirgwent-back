@@ -31,6 +31,7 @@ export class CardsController {
     return this.cardsService.createCard(createCardDto);
   }
 
+  @Auth()
   @ApiOperation({ summary: 'Getting list of cards' })
   @ApiResponse({
     status: 200,
@@ -42,6 +43,7 @@ export class CardsController {
     return this.cardsService.findAllCards();
   }
 
+  @Auth()
   @ApiOperation({ summary: 'Getting a card by id ' })
   @ApiResponse({
     status: 200,
