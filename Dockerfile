@@ -28,6 +28,8 @@ ENV NODE_ENV production
 
 RUN npm ci --only=production && npm cache clean --force
 
+RUN npm run prisma:generate
+
 USER node
 
 
@@ -36,7 +38,5 @@ FROM node:18-alpine As production
 COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node --from=build /usr/src/app/dist ./dist
 
-RUN npm run prisma:generate
 
-# Start the server using the production build
 CMD [ "node", "dist/main.js" ]
